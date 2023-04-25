@@ -61,62 +61,62 @@ x_val_small = x_val[:sample_size]
 y_val_small = y_val[:sample_size]
 
 # PCA for dimensionality reduction
-# pca = PCA(n_components=50)
-# x_train_pca = pca.fit_transform(x_train_small)
-# x_val_pca = pca.transform(x_val_small)
+pca = PCA(n_components=50)
+x_train_pca = pca.fit_transform(x_train_small)
+x_val_pca = pca.transform(x_val_small)
 
-# # K-Nearest Neighbors
-# k_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-# knn_accuracies = []
-# max_knn_accuracy = 0
+# K-Nearest Neighbors
+k_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+knn_accuracies = []
+max_knn_accuracy = 0
 
-# for k in k_values:
-#     print(k)
-#     knn = KNeighborsClassifier(n_neighbors=k)
-#     knn.fit(x_train_pca, y_train_small)
-#     y_pred_knn = knn.predict(x_val_pca)
-#     knn_accuracy = accuracy_score(y_val_small, y_pred_knn)
-#     knn_accuracies.append(knn_accuracy)
-#     max_knn_accuracy = max(max_knn_accuracy, knn_accuracy)
+for k in k_values:
+    print(k)
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(x_train_pca, y_train_small)
+    y_pred_knn = knn.predict(x_val_pca)
+    knn_accuracy = accuracy_score(y_val_small, y_pred_knn)
+    knn_accuracies.append(knn_accuracy)
+    max_knn_accuracy = max(max_knn_accuracy, knn_accuracy)
 
-# # Print max KNN accuracy
-# print("Max KNN accuracy:", max_knn_accuracy)
+# Print max KNN accuracy
+print("Max KNN accuracy:", max_knn_accuracy)
 
-# # Plot the results for K-Nearest Neighbors
-# plt.plot(k_values, knn_accuracies, marker='o')
-# plt.xlabel('k (number of neighbors)')
-# plt.ylabel('Accuracy')
-# plt.title('k-NN Accuracy vs. Number of Neighbors')
-# plt.show()
+# Plot the results for K-Nearest Neighbors
+plt.plot(k_values, knn_accuracies, marker='o')
+plt.xlabel('k (number of neighbors)')
+plt.ylabel('Accuracy')
+plt.title('k-NN Accuracy vs. Number of Neighbors')
+plt.show()
 
-# # Support Vector Machine
-# C_values = np.linspace(1, 10, 5)
-# gamma_values = np.linspace(0.001, 0.2, 5)
+# Support Vector Machine
+C_values = np.linspace(1, 10, 5)
+gamma_values = np.linspace(0.001, 0.2, 5)
 
-# svm_accuracies = np.zeros((len(C_values), len(gamma_values)))
-# max_svm_accuracy = 0
+svm_accuracies = np.zeros((len(C_values), len(gamma_values)))
+max_svm_accuracy = 0
 
-# for i, C in enumerate(C_values):
-#     for j, gamma in enumerate(gamma_values):
-#         print(C, gamma)
-#         svm = SVC(kernel='rbf', C=C, gamma=gamma)
-#         svm.fit(x_train_pca, y_train_small)
-#         y_pred_svm = svm.predict(x_val_pca)
-#         svm_accuracy = accuracy_score(y_val_small, y_pred_svm)
-#         svm_accuracies[i, j] = svm_accuracy
-#         max_svm_accuracy = max(max_svm_accuracy, svm_accuracy)
+for i, C in enumerate(C_values):
+    for j, gamma in enumerate(gamma_values):
+        print(C, gamma)
+        svm = SVC(kernel='rbf', C=C, gamma=gamma)
+        svm.fit(x_train_pca, y_train_small)
+        y_pred_svm = svm.predict(x_val_pca)
+        svm_accuracy = accuracy_score(y_val_small, y_pred_svm)
+        svm_accuracies[i, j] = svm_accuracy
+        max_svm_accuracy = max(max_svm_accuracy, svm_accuracy)
 
-# # Print max SVM accuracy
-# print("Max SVM accuracy:", max_svm_accuracy)
+# Print max SVM accuracy
+print("Max SVM accuracy:", max_svm_accuracy)
 
-# # Plot the results for Support Vector Machine
-# plt.imshow(svm_accuracies, cmap='viridis', aspect='auto', origin='lower',
-#            extent=[gamma_values[0], gamma_values[-1], C_values[0], C_values[-1]])
-# plt.colorbar(label='Accuracy')
-# plt.xlabel('Gamma')
-# plt.ylabel('C (Regularization parameter)')
-# plt.title('SVM Accuracy vs. Regularization Parameter and Gamma')
-# plt.show()
+# Plot the results for Support Vector Machine
+plt.imshow(svm_accuracies, cmap='viridis', aspect='auto', origin='lower',
+           extent=[gamma_values[0], gamma_values[-1], C_values[0], C_values[-1]])
+plt.colorbar(label='Accuracy')
+plt.xlabel('Gamma')
+plt.ylabel('C (Regularization parameter)')
+plt.title('SVM Accuracy vs. Regularization Parameter and Gamma')
+plt.show()
 
 
 # Function to create a CNN model with a given number of convolutional layers
